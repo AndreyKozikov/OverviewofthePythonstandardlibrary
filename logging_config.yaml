@@ -1,0 +1,36 @@
+version: 1
+disable_existing_loggers: false  # False позволяет сохранить логгеры, созданные до загрузки этой конфигурации
+
+formatters: # Секция для определения форматтеров
+  standard: # Название форматтера
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+handlers: # Секция для определения обработчиков.
+  debug_info_handler: # Обработчик для DEBUG и INFO уровней
+    class: logging.FileHandler # Класс обработчика. FileHandler записывает сообщения в файл
+    level: DEBUG
+    formatter: standard
+    filename: debug_info.log
+    encoding: utf-8
+
+  warning_handler:  # Обработчик для WARNING и выше уровней
+    class: logging.FileHandler
+    level: WARNING
+    formatter: standard
+    filename: warning_and_above.log
+    encoding: utf-8
+
+loggers:
+  debug_info_logger: # Название логера для DEBUG и INFO сообщений
+    level: DEBUG
+    handlers: [debug_info_handler]
+    propagate: false # Предотвращает передачу сообщений родительским логерам
+
+  warning_logger: # Название логера для WARNING и выше
+    level: WARNING
+    handlers: [warning_handler]
+    propagate: false # Предотвращает передачу сообщений родительским логерам
+
+root: # Корневой логер будет записывать все сообщения в оба файла
+  level: WARNING
+  handlers: [warning_handler]
